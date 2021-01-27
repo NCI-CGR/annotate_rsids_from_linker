@@ -7,8 +7,6 @@
 
 #include "finter/finter_reader_bzip2.h"
 
-#ifdef FINTER_HAVE_LIBBZ2
-
 annotate_rsids_from_linker::finter_reader_bzip2::finter_reader_bzip2()
     : finter_reader(),
       _raw_input(0),
@@ -22,7 +20,8 @@ annotate_rsids_from_linker::finter_reader_bzip2::finter_reader_bzip2()
   for (unsigned i = 0; i < _buf_max + 1; ++i) _buf[i] = '\0';
 }
 
-void annotate_rsids_from_linker::finter_reader_bzip2::open(const char *filename) {
+void annotate_rsids_from_linker::finter_reader_bzip2::open(
+    const char *filename) {
   if (_raw_input)
     throw std::domain_error(
         "annotate_rsids_from_linker::finter_reader_bzip2: attempted to reopen "
@@ -51,7 +50,8 @@ void annotate_rsids_from_linker::finter_reader_bzip2::close() {
     BZ2_bzReadClose(&error, _bz_input);
     if (error == BZ_SEQUENCE_ERROR)
       throw std::domain_error(
-          "annotate_rsids_from_linker::finter_reader_bzip2::close: bzip2 reports "
+          "annotate_rsids_from_linker::finter_reader_bzip2::close: bzip2 "
+          "reports "
           "read/close operation called on write handle");
     _bz_input = 0;
   }
@@ -83,9 +83,9 @@ char annotate_rsids_from_linker::finter_reader_bzip2::get() {
   return _buf[_buf_read - (_buf_remaining + 1)];
 }
 
-bool annotate_rsids_from_linker::finter_reader_bzip2::getline(std::string *res) {
-  if (!res)
-    throw std::runtime_error("bzip2_reader: null pointer");
+bool annotate_rsids_from_linker::finter_reader_bzip2::getline(
+    std::string *res) {
+  if (!res) throw std::runtime_error("bzip2_reader: null pointer");
   bool retval = false;
   *res = "";
   std::string::size_type find_newline = 0, res_start = 0;
@@ -120,16 +120,20 @@ bool annotate_rsids_from_linker::finter_reader_bzip2::getline(std::string *res) 
   return (_fail || bad() ? false : retval);
 }
 
-bool annotate_rsids_from_linker::finter_reader_bzip2::eof() const { return _eof; }
+bool annotate_rsids_from_linker::finter_reader_bzip2::eof() const {
+  return _eof;
+}
 
 bool annotate_rsids_from_linker::finter_reader_bzip2::good() const {
   return _good;
 }
 
-bool annotate_rsids_from_linker::finter_reader_bzip2::bad() const { return _bad; }
+bool annotate_rsids_from_linker::finter_reader_bzip2::bad() const {
+  return _bad;
+}
 
 void annotate_rsids_from_linker::finter_reader_bzip2::read(char *target,
-                                                         std::streamsize n) {
+                                                           std::streamsize n) {
   unsigned amount_read = 0;
   if (_buf_remaining) {
     for (; amount_read < _buf_remaining && amount_read < n; ++amount_read) {
@@ -153,7 +157,8 @@ void annotate_rsids_from_linker::finter_reader_bzip2::read(char *target,
       _fail = true;
     } else if (error == BZ_SEQUENCE_ERROR) {
       throw std::domain_error(
-          "annotate_rsids_from_linker::finter_reader_bzip2::read: bzip2 reports "
+          "annotate_rsids_from_linker::finter_reader_bzip2::read: bzip2 "
+          "reports "
           "read called on stream opened as write");
     }
   } else if (eof()) {
@@ -186,5 +191,3 @@ void annotate_rsids_from_linker::finter_reader_bzip2::refresh_buffer() {
     _fail = true;
   }
 }
-
-#endif  // HAVE_LIBBZ2

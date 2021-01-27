@@ -7,9 +7,8 @@
 
 #include "finter/finter_writer_bzip2.h"
 
-#ifdef FINTER_HAVE_LIBBZ2
-
-void annotate_rsids_from_linker::finter_writer_bzip2::open(const char *filename) {
+void annotate_rsids_from_linker::finter_writer_bzip2::open(
+    const char *filename) {
   if (_raw_output)
     throw std::domain_error(
         "annotate_rsids_from_linker::finter_writer_bzip2: attempted to reopen "
@@ -38,7 +37,8 @@ void annotate_rsids_from_linker::finter_writer_bzip2::close() {
     BZ2_bzWriteClose(&error, _bz_output, 0, 0, 0);
     if (error == BZ_SEQUENCE_ERROR) {
       throw std::domain_error(
-          "annotate_rsids_from_linker::finter_writer_bzip2::close: bzip reports "
+          "annotate_rsids_from_linker::finter_writer_bzip2::close: bzip "
+          "reports "
           "write/close operation called on read handle");
     }
     _bz_output = 0;
@@ -88,7 +88,7 @@ void annotate_rsids_from_linker::finter_writer_bzip2::writeline(
 }
 
 void annotate_rsids_from_linker::finter_writer_bzip2::write(char *buf,
-                                                          std::streamsize n) {
+                                                            std::streamsize n) {
   int error = 0;
   BZ2_bzWrite(&error, _bz_output, reinterpret_cast<void *>(buf),
               static_cast<int>(n));
@@ -100,5 +100,3 @@ void annotate_rsids_from_linker::finter_writer_bzip2::write(char *buf,
         "write operation called on read handle");
   }
 }
-
-#endif  // HAVE_LIBBZ2

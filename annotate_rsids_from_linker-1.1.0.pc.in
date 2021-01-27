@@ -8,4 +8,4 @@ Description: Use linker file to map chr:pos to rsID labels, for plco-analysis
 Requires: gcc >= 8.2.0
 Version: @PACKAGE_VERSION@
 Libs: -L${libdir}
-Cflags: -I${includedir}/annotate_rsids_from_linker-1.0.0 -I${libdir}/annotate_rsids_from_linker-1.0.0/include
+Cflags: -I${includedir}/annotate_rsids_from_linker-1.1.0 -I${libdir}/annotate_rsids_from_linker-1.1.0/include
