@@ -94,8 +94,8 @@ void stream_update(const std::string &analysis_filename,
                    const std::string &output_filename,
                    std::vector<std::string> *updated_ids,
                    std::map<std::string, rescue_annotation> *rescue_chrpos) {
-  annotate_rsids_from_linker::finter_reader *input_analysis = 0, *input_linker = 0;
-  annotate_rsids_from_linker::finter_writer *output = 0;
+  finter::finter_reader *input_analysis = 0, *input_linker = 0;
+  finter::finter_writer *output = 0;
   std::string analysis_line = "", linker_line = "", chrpos_id = "", rsid = "",
               analysis_chrpos = "", catcher = "", refalt = "";
   std::string::size_type loc = 0;
@@ -219,7 +219,7 @@ void dbsnp_rescue(const std::string &filename,
                   std::map<std::string, rescue_annotation> *target) {
   if (!target)
     throw std::domain_error("dbsnp_rescue: called with null pointer");
-  annotate_rsids_from_linker::finter_reader *input = 0;
+  finter::finter_reader *input = 0;
   std::string line = "";
   unsigned n_updated = 0;
   std::map<std::string, rescue_annotation>::iterator finder;
@@ -260,8 +260,8 @@ void update_from_memory(
     const std::string &output_filename) {
   if (!updated_ids)
     throw std::domain_error("update_from_memory: called with null pointer");
-  annotate_rsids_from_linker::finter_reader *input = 0;
-  annotate_rsids_from_linker::finter_writer *output = 0;
+  finter::finter_reader *input = 0;
+  finter::finter_writer *output = 0;
   std::string line = "", catcher = "", refalt = "";
   try {
     input = annotate_rsids_from_linker::reconcile_reader(input_filename);

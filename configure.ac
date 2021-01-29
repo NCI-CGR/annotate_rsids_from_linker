@@ -48,6 +48,4 @@ AC_CONFIG_FILES([
  Makefile
  annotate_rsids_from_linker-1.1.0.pc
 ])
-AC_CONFIG_SUBDIRS([finter])
-
 AC_OUTPUT
