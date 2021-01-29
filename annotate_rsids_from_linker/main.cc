@@ -102,11 +102,11 @@ void stream_update(const std::string &analysis_filename,
   unsigned total_updated = 0, valid_updated = 0, not_present_in_linker = 0,
            linker_chr = 0, linker_pos = 0, analysis_chr = 0, analysis_pos = 0;
   try {
-    input_analysis = annotate_rsids_from_linker::reconcile_reader(analysis_filename);
-    input_linker = annotate_rsids_from_linker::reconcile_reader(linker_filename);
+    input_analysis = finter::reconcile_reader(analysis_filename);
+    input_linker = finter::reconcile_reader(linker_filename);
     input_analysis->getline(&analysis_line);
     if (!updated_ids) {
-      output = annotate_rsids_from_linker::reconcile_writer(output_filename);
+      output = finter::reconcile_writer(output_filename);
       output->writeline(analysis_line);
     } else {
       updated_ids->reserve(40000000);
@@ -225,7 +225,7 @@ void dbsnp_rescue(const std::string &filename,
   std::map<std::string, rescue_annotation>::iterator finder;
   std::vector<std::string> vec;
   try {
-    input = annotate_rsids_from_linker::reconcile_reader(filename);
+    input = finter::reconcile_reader(filename);
     while (input->getline(&line) && n_updated != target->size()) {
       if (line.empty() || line.at(0) == '#') continue;
       splitline(line, &vec, "\t");
@@ -264,8 +264,8 @@ void update_from_memory(
   finter::finter_writer *output = 0;
   std::string line = "", catcher = "", refalt = "";
   try {
-    input = annotate_rsids_from_linker::reconcile_reader(input_filename);
-    output = annotate_rsids_from_linker::reconcile_writer(output_filename);
+    input = finter::reconcile_reader(input_filename);
+    output = finter::reconcile_writer(output_filename);
     for (std::map<std::string, rescue_annotation>::const_iterator iter =
              rescued_ids.begin();
          iter != rescued_ids.end(); ++iter) {
