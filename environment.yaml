@@ -1,5 +1,7 @@
 name: annotate_rsids_from_linker-env
 dependencies:
+  - boost-cpp
+  - finter
   - zlib
   - bzip2
   - git
@@ -8,7 +10,6 @@ dependencies:
   - pre-commit
   - cppcheck
   - sarcasm::clang-format
-
   - libtool
   - automake
   - autoconf

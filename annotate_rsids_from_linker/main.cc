@@ -96,11 +96,12 @@ void stream_update(const std::string &analysis_filename,
                    std::map<std::string, rescue_annotation> *rescue_chrpos) {
   finter::finter_reader *input_analysis = 0, *input_linker = 0;
   finter::finter_writer *output = 0;
-  std::string analysis_line = "", linker_line = "", chrpos_id = "", rsid = "",
-              analysis_chrpos = "", catcher = "", refalt = "";
+  std::string linker_chr = "", analysis_chr = "", analysis_line = "",
+              linker_line = "", chrpos_id = "", rsid = "", analysis_chrpos = "",
+              catcher = "", refalt = "";
   std::string::size_type loc = 0;
   unsigned total_updated = 0, valid_updated = 0, not_present_in_linker = 0,
-           linker_chr = 0, linker_pos = 0, analysis_chr = 0, analysis_pos = 0;
+           linker_pos = 0, analysis_pos = 0;
   try {
     input_analysis = finter::reconcile_reader(analysis_filename);
     input_linker = finter::reconcile_reader(linker_filename);
@@ -129,7 +130,7 @@ void stream_update(const std::string &analysis_filename,
                                   linker_filename + "\" line \"" + linker_line +
                                   "\"");
         loc = chrpos_id.find(":") + 1;
-        linker_chr = from_string<unsigned>(chrpos_id.substr(3, loc - 4));
+        linker_chr = from_string<std::string>(chrpos_id.substr(3, loc - 4));
         linker_pos = from_string<unsigned>(
             chrpos_id.substr(loc, chrpos_id.find(":", loc) - loc));
         if (!chrpos_id.compare(analysis_chrpos)) {
